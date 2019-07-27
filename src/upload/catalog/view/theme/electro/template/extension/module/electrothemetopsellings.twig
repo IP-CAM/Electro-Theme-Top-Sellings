@@ -1,0 +1,399 @@
+{#
+
+electrothemetopsellings.php
+
+Template file for a front page.
+
+#}
+
+{% if products|length >0 %}
+<!-- SECTION -->
+<div class="section electro-top-sellings">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- col-md-12 -->
+            <div class="col-md-12">
+                <!-- section-title -->
+                <div class="section-title">
+                    <h3 class="title">{{ section_title }}</h3>
+                    <!-- section-nav -->
+                    <div class="section-nav">
+                        <!-- section-tab-nav -->
+                        <ul class="section-tab-nav tab-nav">
+                            <li class="active">
+                                <a data-toggle="tab" href="#tab2" data-category-id="-1">{{ text_all_categories }}</a>
+                            </li>
+                            {% for category in categories %}
+                            <li>
+                                <a data-toggle="tab" href="#tab2" data-category-id="{{ category.id }}">{{ category.name
+                                    }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <!-- /section-tab-nav -->
+                    </div>
+                    <!-- /section-nav -->
+                </div>
+                <!-- /section-title -->
+            </div>
+            <!-- /col-md-12 -->
+
+            <!-- Products tab & slick -->
+            <div class="col-md-12">
+                <!-- row -->
+                <div class="row">
+                    <!-- products-tabs -->
+                    <div class="products-tabs">
+                        <!-- tab -->
+                        <div id="tab2" class="tab-pane fade in active">
+                            <!-- hidden-products-slick -->
+                            <div class="hidden-products-slick" data-nav="#slick-nav-2" style="display:none">
+                            
+                                {% for product in products %}
+
+                                <!-- product -->
+                                <div class="product" data-category-id="{% for cat_id in product['category_id'] %}{{ cat_id }}{% if not loop.last %},{% endif %}{% endfor %}">
+                                    <!-- product-img -->
+                                    <div class="product-img">
+                                    {% if product.image %}
+                                        <img src="/image/{{ product.image }}" alt="{{ product.name }}">
+                                    {% else %}
+                                        <img src="/image/placeholder.png" alt="{{ product.name }}">
+                                    {% endif %}
+                                    </div>
+                                    <!-- /product-img -->
+                                    <!-- product-body -->
+                                    <div class="product-body">
+                                        <p class="product-category">{{ product.category_name }}</p>
+                                        <h3 class="product-name"><a href="/index.php?route=product/product&product_id={{ product.product_id }}">{{
+                                                product.name }}</a>
+                                        </h3>
+
+                                        {% if product.price %}
+                                        <!-- product-price -->
+                                            {% if not product.special %}
+                                        <h4 class="product-price">{{ product.price }}</h4>
+                                            {% else %}
+                                        <h4 class="product-price">{{ product.special }} <del class="product-old-price">{{
+                                                product.price }}</del></h4>
+                                            {% endif %}
+                                        <!-- /product-price -->
+                                        {% else %}
+                                        <h4 class="product-price">{{ product.price }}</h4>
+                                        {% endif %}
+
+                                        
+                                        <!-- product-rating -->
+                                        <div class="product-rating">
+                                        {% if product.rating %}
+                                            {% for i in 1..5 %}
+                                                {% if product.rating>=i %} 
+                                            <i class="fa fa-star"></i>
+                                                {% else %}
+                                            <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        
+                                        {% else %}
+                                            {% for i in 1..5 %}
+                                            <i class="fa fa-star-o"></i>
+                                            {% endfor %}
+                                        {% endif %}
+                                        </div>
+                                        <!-- /product-rating -->
+                                        
+                                        
+
+                                        <!-- product-btns -->
+                                        <div class="product-btns">
+                                            <input type='hidden' value='{{ product.product_id }}' class='product-id' />
+                                            <button class="add-to-wishlist" onclick="wishlist.add('{{ product.product_id }}')">
+                                                <i class="fa fa-heart-o"></i>
+                                                <span class="tooltipp">{{ button_wishlist }}</span>
+                                            </button>
+                                            <button class="add-to-compare" onclick="compare.add('{{ product.product_id }}')">
+                                                <i class="fa fa-exchange"></i>
+                                                <span class="tooltipp">{{ button_compare }}</span>
+                                            </button>
+                                        </div>
+                                        <!-- /product-btns -->
+                                    </div>
+                                    <!-- /product-body -->
+
+                                    <input type='hidden' value='1' class='input-quantity' />
+                                    <!-- add-to-cart -->
+                                    <div class="add-to-cart">
+                                        <button class="add-to-cart-btn" type="button" data-product-id="{{ product.product_id }}" data-quantity="1">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            {{ button_cart }}
+                                        </button>
+                                    </div>
+                                    <!-- /add-to-cart -->
+                                </div>
+                                <!-- /product -->
+
+                                {% endfor %}
+                            </div>
+                            <!-- /hidden-products-slick -->
+                            <!-- products-slick -->
+                            <div class="products-slick" data-nav="#slick-nav-2">
+                            </div>
+                            <!-- /products-slick -->
+
+                            <div id="slick-nav-2" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /tab -->
+                    </div>
+                    <!-- /products-tabs -->
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /Products tab & slick -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            {% for i in range(3,5) %}
+            <!-- col-md-4 col-xs-6 -->
+            <div class="col-md-4 col-xs-6">
+                <!-- section-title -->
+                <div class="section-title">
+                    <h4 class="title">{{ section_title }}</h4>
+                    <!-- section-nav -->
+                    <div class="section-nav">
+                        <div id="slick-nav-{{ i }}" class="products-slick-nav"></div>
+                    </div>
+                    <!-- /section-nav -->
+                </div>
+                <!-- /section-title -->
+
+                <!-- products-widget-slick -->
+                <div class="products-widget-slick" data-nav="#slick-nav-{{ i }}">
+
+                    {# if products #}
+                        {% if products|length > 2 %}
+                            {# products #}
+                            {% for product in products %}
+
+                                {# loop.index0 #}
+                                {% if loop.index0 % 3 == 0 or loop.first %}
+                    <div>
+                                {% endif %}
+                                {# /loop.index0 #}
+                        {% include "electro/template/extension/module/product.electrothemetopsellings.twig" %}
+                                {# loop.index0 #}
+                                {% if loop.index0 % 3 == 2 or loop.last %}
+                    </div>
+                                {% endif %}
+                                {# /loop.index0 #}
+                            {% endfor %}
+                            {# /products #}
+                        {% else %} {# if products|length <=2 #}
+                            {# products #}
+                            {% for product in products %}
+                    <div>
+                        {% include "electro/template/extension/module/product.electrothemetopsellings.twig" %}
+                    </div>
+                            {% endfor %}
+                            {# /products #}
+                        {% endif %}
+                        {# /if products #}
+
+                </div>
+            </div>
+            {# </div> #}
+                {% if i == 3 %}
+            <div class="clearfix visible-sm visible-xs"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+<script>
+
+    $(document).ready(function () {
+      var root = $(".electro-top-sellings .hidden-products-slick");
+      var target = $(".electro-top-sellings .products-slick");
+      var products = $(root).children();
+      for (var i = 0, len = products.length; i < len; i++) {
+        var product = products[i];
+        
+        var clone=$(product).clone();// show all of the new products
+            clone.appendTo(target); 
+            clone.on('click',addToCartFnTopSellings);
+      }
+
+      function reloadCarousel() {
+        var $nav = $(".electro-top-sellings .products-slick").attr('data-nav');
+        $(".electro-top-sellings .products-slick").slick({
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          autoplay: true,
+          infinite: true,
+          speed: 300,
+          dots: false,
+          arrows: true,
+          appendArrows: $nav ? $nav : false,
+          responsive: [{
+              breakpoint: 991,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+              }
+            },
+          ]
+        });
+      }
+      reloadCarousel();
+      // Categories
+      $(".electro-top-sellings .tab-nav a").on('click', function (event) {
+        var thisElement = $(event.target);
+        var categoryId = $(thisElement).data("category-id");
+
+        showCategories(categoryId);
+      });
+         var addToCartFnTopSellings = function(event) {
+        var id = $(event.target).data('product-id');
+        var quantity = 1;
+        
+        var target = event.target;
+        
+        var data = 'product_id=' + id + '&quantity=' + quantity;        
+
+        $.ajax({
+            url: 'index.php?route=checkout/cart/add',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            beforeSend: function() {},
+            complete: function() {},
+            success: function(json) {
+                $('.alert-dismissible, .text-danger').remove();
+                $('.form-group').removeClass('has-error');
+
+                if (json['error']) {
+                    if (json['error']['option']) {
+                        for (i in json['error']['option']) {
+                            var element = $('#input-option' + i.replace('_', '-'));
+
+                            if (element.parent().hasClass('input-group')) {
+                                element.parent().after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+                            } else {
+                                element.after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+                            }
+                        }
+                    }
+
+                    if (json['error']['recurring']) {
+                        $('select[name=\'recurring_id\']').after('<div class="text-danger">' + json['error']['recurring'] + '</div>');
+                    }
+
+                    // Highlight any found errors
+                    $('.text-danger').parent().addClass('has-error');
+                }
+
+                if (json['redirect']) {
+                    location = json['redirect'];
+                }
+
+                if (json['success']) {
+
+                    $('#content')
+                        //.parent()
+                        .before('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+
+                    // Need to set timeout otherwise it wont update the total
+                    setTimeout(function() {
+                        $('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
+                    }, 100);
+                    $('#cart-dropdown .qty').text(/([0-9]{1,})/.exec(json['total'])[0]);
+                    $('html, body').animate({
+                        scrollTop: 0
+                    }, 'slow');
+
+                    updateCartImages();
+                } else {
+                    $('#content')
+                        //.parent()
+                        .before('<div class="alert alert-danger alert-dismissible"><i class="fa fa-check-circle"></i> Oops! Something is wrong. Maybe you have not set some options... Please, ensure that you have set all the required options on the page.<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+                }
+                if (!json) {
+                    $('#content')
+                        //.parent()
+                        .before('<div class="alert alert-danger alert-dismissible"><i class="fa fa-check-circle"></i> No JSON <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                }
+                return false;
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+        return false;
+    };
+      function showCategories(id) {
+        var root = $(".electro-top-sellings .hidden-products-slick");
+        var target = $(".electro-top-sellings .hidden-products-slick").parent().children(".products-slick");
+        $(target).slick("unslick");
+        $(target).children().remove();
+        var products = $(root).children();
+        if (id == -1) { // if clicked on 'All' (categories)
+          for (var i = 0, len = products.length; i < len; i++) {
+            var product = products[i];
+            var clone=$(product).clone();// show all of the new products
+            clone.appendTo(target); 
+            clone.on('click',addToCartFnTopSellings);
+
+          }
+
+        } else {
+          for (var i = 0, len = products.length; i < len; i++) {
+            // gets product's category's id
+            var product = products[i];
+            cids = $(product).data("category-id").toString().split(',');
+            for (var j=0,lenj=cids.length;j<lenj;j++){
+                var cid=cids[j];
+                if (cid == id) {
+                    // clones the product's node to .products-slick
+                    
+                    var clone=$(product).clone();// show all of the new products
+                    clone.appendTo(target); 
+                    clone.on('click',addToCartFnTopSellings);
+                    break;
+                }
+            }
+          }
+        }
+        // creates a new carousel
+        reloadCarousel();
+      }
+    });
+</script>
+
+{% else %}
+<script>
+console.log("There is no products for Top Sellings Module.");
+</script>
+{% endif %}

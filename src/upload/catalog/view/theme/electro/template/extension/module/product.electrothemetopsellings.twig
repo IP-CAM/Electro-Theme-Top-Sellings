@@ -1,0 +1,42 @@
+<!-- product widget -->
+<div class="product-widget">
+    <!-- product-img -->
+    <div class="product-img">
+        {% if product.image %}
+        <img src="/image/{{ product.image }}" alt="{{ product.name }}">
+        {% else %}
+        <img src="/image/placeholder.png" alt="{{ product.name }}">
+        {% endif %}
+    </div>
+    <!-- /product-img -->
+    <!-- product-body -->
+    <div class="product-body">
+        <p class="product-category">{{ product.category_name }}</p>
+        <!-- product-name -->
+        <h3 class="product-name">
+            <a href="/index.php?route=product/product&product_id={{ product.product_id }}">
+                {{ product.name }}
+            </a>
+        </h3>
+        <!-- /product-name -->
+        {% if product.price %}
+        <!-- product-price -->
+            {% if not product.special %}
+        <h4 class="product-price">{{ product.price }}</h4>
+            {% else %}
+        <h4 class="product-price">
+            {{ product.special }}
+            <del class="product-old-price">
+                {{ product.price }}
+            </del>
+        </h4>
+            {% endif %}
+        
+        <!-- /product-price -->
+        {% else %}
+        <h4 class="product-price">{{ product.price }}</h4>
+        {% endif %}
+    </div>
+    <!-- /product-body -->
+</div>
+<!-- /product widget -->
